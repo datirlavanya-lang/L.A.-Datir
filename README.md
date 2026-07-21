@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# 🏢 Society Management System
+# 🏢 MySociety
 
 A comprehensive, full-stack web application for managing residential societies, built with Django. This system streamlines financial operations, resident management, duty assignments, and community communication.
 
@@ -51,8 +51,8 @@ A comprehensive, full-stack web application for managing residential societies, 
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/society-management-system.git
-cd society-management-system
+git clone https://github.com/yourusername/MySociety.git
+cd MySociety
 ```
 
 2. **Create a virtual environment**
