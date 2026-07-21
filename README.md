@@ -218,10 +218,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 👨‍💻 Author
 
-**Your Name**
-- Portfolio: [your-portfolio.com]
-- LinkedIn: [your-linkedin-profile]
-- GitHub: [your-github-username]
+**Lavanya Datir**
+- Portfolio: [Coming Soon]
+- LinkedIn: [linkedin.com/in/lavanya-datir-371742353]
+- GitHub: [https://github.com/datirlavanya-lang]
 
 ## 🎓 Learning Outcomes
 
