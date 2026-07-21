@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🏢 Society Management System
 
 A comprehensive, full-stack web application for managing residential societies, built with Django. This system streamlines financial operations, resident management, duty assignments, and community communication.
@@ -253,3 +254,9 @@ For support, email support@societymanagement.com or open an issue in the reposit
 ---
 
 **Built with ❤️ using Django and Bootstrap**
+=======
+# L.A.-Datir
+First Git Repository
+<br>
+Author - Lavanya Datir
+>>>>>>> 25b2026ca0ee29881a38db024fcce0f52612f3c9
