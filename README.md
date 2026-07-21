@@ -220,7 +220,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 **Lavanya Datir**
 - Portfolio: [Coming Soon]
-- LinkedIn: [linkedin.com/in/lavanya-datir-371742353]
+- LinkedIn: [https://www.linkedin.com/in/lavanya-datir-371742353]
 - GitHub: [https://github.com/datirlavanya-lang]
 
 ## 🎓 Learning Outcomes
