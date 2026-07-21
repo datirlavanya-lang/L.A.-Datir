@@ -1,0 +1,26 @@
+{% extends 'society/base.html' %}
+
+{% block title %}Confirm Delete - Society Management{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">⚠️ Confirm Delete</h2>
+
+<div class="card border-danger">
+    <div class="card-header bg-danger text-white">
+        Are you sure you want to delete this item?
+    </div>
+    <div class="card-body">
+        <p>This action cannot be undone.</p>
+        <p class="text-muted"><strong>{{ object }}</strong></p>
+    </div>
+</div>
+
+<div class="mt-4">
+    <form method="post" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-lg">🗑️ Yes, Delete It</button>
+    </form>
+    <a href="javascript:history.back()" class="btn btn-secondary btn-lg">Cancel</a>
+</div>
+
+{% endblock %}

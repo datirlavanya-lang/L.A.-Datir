@@ -1,0 +1,479 @@
+{% extends 'society/base.html' %}
+
+{% block title %}Society Management System - Welcome{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    padding: 120px 0 80px;
+    border-radius: 0 0 50px 50px;
+    margin-bottom: 60px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></svg>');
+    background-size: 100px 100px;
+    animation: float 20s linear infinite;
+}
+
+@keyframes float {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; }
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    letter-spacing: -1px;
+}
+
+.hero-section .subtitle {
+    font-size: 1.4rem;
+    opacity: 0.9;
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stats-bar {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: 50px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.stat-item h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.stat-item p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+.trust-badges {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.trust-badge {
+    background: rgba(255,255,255,0.15);
+    padding: 15px 25px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.feature-section {
+    padding: 80px 0;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.feature-card h4 {
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #1a1a2e;
+}
+
+.feature-card p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.feature-list li {
+    padding: 8px 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.feature-list li::before {
+    content: '✓';
+    color: #27ae60;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+    padding: 80px 0;
+    border-radius: 30px;
+    margin: 60px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.testimonial-section {
+    padding: 80px 0;
+    background: #f8f9fa;
+    border-radius: 30px;
+    margin: 60px 0;
+}
+
+.testimonial-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.testimonial-text {
+    font-style: italic;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.author-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.author-info h5 {
+    margin-bottom: 2px;
+    color: #1a1a2e;
+}
+
+.author-info p {
+    margin-bottom: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero-section .subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .stat-item h3 {
+        font-size: 2rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section fade-in-up">
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-3 fw-bold mb-4">🏢 Society Management System</h1>
+                <p class="subtitle lead">The Complete Digital Solution for Modern Residential Communities. Streamline operations, enhance transparency, and build stronger communities.</p>
+                {% if user.is_authenticated %}
+                    {% if new_user %}
+                        <div class="mt-4">
+                            <div class="alert alert-info border-0" style="background: rgba(255,255,255,0.2); color: white;">
+                                <h4 class="alert-heading">🎉 Welcome {{ user.first_name }}!</h4>
+                                <p class="mb-0">{{ message }}</p>
+                            </div>
+                            <a href="{% url 'logout' %}" class="btn btn-outline-light btn-lg px-4 mt-3">🚪 Logout</a>
+                        </div>
+                    {% else %}
+                        <div class="mt-4">
+                            {% if user.is_staff or user.is_superuser %}
+                                <a href="/dashboard/admin/" class="btn btn-light btn-lg me-3 px-4">⚡ Admin Dashboard</a>
+                            {% else %}
+                                <a href="{% url 'resident-dashboard' %}" class="btn btn-light btn-lg me-3 px-4">🏠 My Dashboard</a>
+                            {% endif %}
+                            <a href="{% url 'logout' %}" class="btn btn-outline-light btn-lg px-4">🚪 Logout</a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="mt-4">
+                        <a href="{% url 'login' %}" class="btn btn-light btn-lg me-3 px-4">🔐 Login Now</a>
+                        <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-4">� Register</a>
+                    </div>
+                {% endif %}
+                
+                <div class="stats-bar">
+                    <div class="row">
+                        <div class="col-md-3 col-6 mb-3 mb-md-0">
+                            <div class="stat-item">
+                                <h3>✓</h3>
+                                <p>Payment Processing</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3 mb-md-0">
+                            <div class="stat-item">
+                                <h3>✓</h3>
+                                <p>Resident Management</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="stat-item">
+                                <h3>✓</h3>
+                                <p>Duty Scheduling</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="stat-item">
+                                <h3>✓</h3>
+                                <p>Financial Reports</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="trust-badges">
+                    <div class="trust-badge">🔒 Secure Authentication</div>
+                    <div class="trust-badge">⚡ Real-Time Updates</div>
+                    <div class="trust-badge">📱 Mobile Optimized</div>
+                    <div class="trust-badge">🎯 Production Ready</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container feature-section" id="features">
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-5">
+            <h2 class="display-5 fw-bold">🌟 Why Choose Our Platform?</h2>
+            <p class="lead text-muted">Comprehensive features designed for modern society management</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-4 col-md-6 fade-in-up">
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h4>Financial Management</h4>
+                <p>Complete financial tracking with automated billing, payment processing, and comprehensive reporting.</p>
+                <ul class="feature-list">
+                    <li>Automated maintenance billing</li>
+                    <li>Multiple payment methods</li>
+                    <li>Real-time payment tracking</li>
+                    <li>Detailed financial reports</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 fade-in-up">
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h4>Resident Management</h4>
+                <p>Streamlined resident onboarding, unit allocation, and communication tools for better community engagement.</p>
+                <ul class="feature-list">
+                    <li>Digital resident directory</li>
+                    <li>Unit assignment system</li>
+                    <li>Communication portal</li>
+                    <li>Document management</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 fade-in-up">
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h4>Duty Management</h4>
+                <p>Fair and transparent duty rotation system with automated scheduling and performance tracking.</p>
+                <ul class="feature-list">
+                    <li>Automated duty assignments</li>
+                    <li>Interactive duty calendar</li>
+                    <li>Performance analytics</li>
+                    <li>Duty swap requests</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 fade-in-up">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h4>Analytics & Reports</h4>
+                <p>Powerful dashboards and reports for data-driven decision making and complete transparency.</p>
+                <ul class="feature-list">
+                    <li>Real-time financial summaries</li>
+                    <li>Occupancy analytics</li>
+                    <li>Payment trend analysis</li>
+                    <li>Custom report generation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 fade-in-up">
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h4>Security & Access</h4>
+                <p>Enterprise-grade security with role-based access control and data encryption.</p>
+                <ul class="feature-list">
+                    <li>Role-based permissions</li>
+                    <li>Two-factor authentication</li>
+                    <li>Audit trail & logs</li>
+                    <li>Data backup & recovery</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 fade-in-up">
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h4>Mobile Ready</h4>
+                <p>Access your society management system from anywhere with our responsive mobile-first design.</p>
+                <ul class="feature-list">
+                    <li>Mobile-optimized interface</li>
+                    <li>Push notifications</li>
+                    <li>Offline mode support</li>
+                    <li>Cross-platform compatibility</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="cta-section">
+        <div class="container position-relative">
+            <h3 class="display-5 fw-bold mb-4">🚀 Ready to Transform Your Society?</h3>
+            <p class="lead mb-4">Streamline your society management with our comprehensive platform. Start today and see the difference.</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="{% url 'login' %}" class="btn btn-light btn-lg px-5">🔐 Get Started</a>
+                <a href="#features" class="btn btn-outline-light btn-lg px-5">📋 Learn More</a>
+            </div>
+            <p class="mt-4 mb-0 opacity-75">Free to use • Self-hosted • Complete control over your data</p>
+        </div>
+    </div>
+</div>
+
+<div class="container testimonial-section">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h2 class="display-5 fw-bold">💬 What You Can Do</h2>
+            <p class="lead text-muted">Practical features for everyday society management</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Generate monthly maintenance charges for all units in one click. Track payments automatically and send reminders for pending dues."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">💰</div>
+                    <div class="author-info">
+                        <h5>Financial Management</h5>
+                        <p>Automated Billing & Tracking</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Manage resident information, assign units, and maintain a complete directory. Handle move-ins and move-outs seamlessly."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">👥</div>
+                    <div class="author-info">
+                        <h5>Resident Services</h5>
+                        <p>Complete Resident Database</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Schedule and assign duties fairly among residents. Track completion and manage duty rotations automatically."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">🔄</div>
+                    <div class="author-info">
+                        <h5>Duty Management</h5>
+                        <p>Fair Assignment System</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

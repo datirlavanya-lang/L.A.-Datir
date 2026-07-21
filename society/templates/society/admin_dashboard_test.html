@@ -1,0 +1,94 @@
+{% extends 'society/base.html' %}
+
+{% block title %}Admin Dashboard - Test{% endblock %}
+
+{% block content %}
+<div class="hero-section fade-in-up">
+    <div class="container">
+        <h1 class="display-4 fw-bold">⚡ Admin Dashboard</h1>
+        <p class="lead">Welcome to the Society Management Admin Panel</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="stats-box fade-in-up">
+                <h4>🏠 Total Units</h4>
+                <p>0</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="stats-box fade-in-up" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <h4>💰 Pending Dues</h4>
+                <p>₹0</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="stats-box fade-in-up" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <h4>💳 Collected</h4>
+                <p>₹0</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="stats-box fade-in-up" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <h4>⚠️ Overdue</h4>
+                <p>0</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">🔧 Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <a href="/dashboard/units/" class="btn btn-primary w-100">➕ All Units</a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="/dashboard/maintenance/bulk/" class="btn btn-success w-100">💰 Bulk Maintenance</a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="/dashboard/duty/add/" class="btn btn-warning w-100">📅 Assign Duty</a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="/dashboard/payments/" class="btn btn-danger w-100">📊 Payments</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">📋 Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">No recent activity to display.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">🏠 Units Overview</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">No units found. Please add units to get started.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

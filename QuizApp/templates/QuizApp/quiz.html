@@ -1,0 +1,12 @@
+<h2>Result</h2>
+
+<p>Your answer: {{ selected }}</p>
+
+{% if correct %}
+    <h3 style="color:green;">Correct ✅</h3>
+{% else %}
+    <h3 style="color:red;">Wrong ❌</h3>
+    <p>Correct answer: {{ answer }}</p>
+{% endif %}
+
+<a href="">Try Again</a>

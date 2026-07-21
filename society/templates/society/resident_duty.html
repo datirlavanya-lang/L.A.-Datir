@@ -1,0 +1,78 @@
+{% extends 'society/base.html' %}
+
+{% block title %}My Duties - Society Management{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📅 My Duty Turns</h2>
+
+{% if current_duties %}
+    <div class="row">
+        {% for duty in current_duties %}
+            <div class="col-md-6 mb-3">
+                <div class="card border-success">
+                    <div class="card-header bg-success text-white">
+                        🔴 ACTIVE NOW
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ duty.get_duty_type_display }}</h5>
+                        <p><strong>Unit:</strong> {{ duty.unit.unit_number }}</p>
+                        <p><strong>Period:</strong> {{ duty.start_date }} to {{ duty.end_date }}</p>
+                        <p><strong>Assigned To:</strong> {{ duty.assigned_to.first_name }} {{ duty.assigned_to.last_name }}</p>
+                        {% if duty.notes %}
+                            <p><strong>Notes:</strong> {{ duty.notes }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">📭 No active duties right now</div>
+{% endif %}
+
+<h3 class="mt-5">📋 All Duty Assignments</h3>
+
+<div class="card">
+    <div class="card-body">
+        {% if duties %}
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Duty Type</th>
+                        <th>Unit</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for duty in duties %}
+                        <tr>
+                            <td>{{ duty.get_duty_type_display }}</td>
+                            <td>{{ duty.unit.unit_number }}</td>
+                            <td>{{ duty.start_date }}</td>
+                            <td>{{ duty.end_date }}</td>
+                            <td>
+                                {% if duty.is_active %}
+                                    <span class="badge bg-success">ACTIVE</span>
+                                {% elif duty.is_upcoming %}
+                                    <span class="badge bg-warning">UPCOMING</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">COMPLETED</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-muted">No duty assignments</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'resident-dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+{% endblock %}

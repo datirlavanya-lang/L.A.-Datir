@@ -1,0 +1,26 @@
+<h2>{{ question }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {% for opt in options %}
+        <input type="radio" name="option" value="{{ opt }}" required>
+        {{ opt }} <br>
+    {% endfor %}
+
+    <br>
+    <button type="submit">Submit</button>
+</form>
+
+{% if selected %}
+    <h3>
+        {% if selected == correct %}
+            ✅ Correct!
+        {% else %}
+            ❌ Wrong. Correct answer: {{ correct }}
+        {% endif %}
+    </h3>
+
+    <a href="?q={{ next_q }}">Next Question</a>
+{% endif %}
+3

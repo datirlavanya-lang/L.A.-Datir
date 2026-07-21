@@ -1,0 +1,155 @@
+{% extends 'society/base.html' %}
+
+{% block title %}Login - Society Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+        <div class="card border-0 shadow-lg fade-in-up">
+            <div class="card-header text-center border-0 py-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h3 class="text-white mb-0">🔐 Welcome Back</h3>
+                <p class="text-white-50 mb-0">Sign in to access your dashboard</p>
+            </div>
+            <div class="card-body p-5">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger border-0">
+                            <div class="d-flex align-items-center">
+                                <div class="alert-icon me-3">⚠️</div>
+                                <div>
+                                    {{ form.non_field_errors }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="mb-4">
+                        <label for="{{ form.username.id_for_label }}" class="form-label fw-semibold">
+                            <span class="me-2">👤</span>Username
+                        </label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="text-danger mt-2">
+                                <small>⚠️ {{ form.username.errors }}</small>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="{{ form.password.id_for_label }}" class="form-label fw-semibold">
+                            <span class="me-2">🔒</span>Password
+                        </label>
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                            <div class="text-danger mt-2">
+                                <small>⚠️ {{ form.password.errors }}</small>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid mb-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <span class="me-2">🚀</span>Sign In
+                        </button>
+                    </div>
+                    
+                    <div class="text-center">
+                        <small class="text-muted">
+                            Forgot your password? 
+                            <a href="#" class="text-decoration-none">Reset Password</a>
+                        </small>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <p class="text-white">
+                <small>New to Society Management? 
+                    <a href="{% url 'register' %}" class="text-decoration-none text-white fw-semibold">
+                        Create Account →
+                    </a>
+                </small>
+            </p>
+        </div>
+    </div>
+    
+    <div class="col-lg-5 col-md-5 d-none d-md-block">
+        <div class="card border-0 shadow-lg h-100" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="card-body text-center text-white p-5 d-flex flex-column justify-content-center">
+                <h2 class="mb-4">🌟 Why Choose Our Platform?</h2>
+                
+                <div class="mb-4">
+                    <div class="mb-3">
+                        <span class="feature-icon">💰</span>
+                    </div>
+                    <h5 class="mb-3">Smart Financial Management</h5>
+                    <p class="text-white-50">Track payments, manage maintenance, and get real-time financial insights.</p>
+                </div>
+                
+                <div class="mb-4">
+                    <div class="mb-3">
+                        <span class="feature-icon">👥</span>
+                    </div>
+                    <h5 class="mb-3">Community Hub</h5>
+                    <p class="text-white-50">Connect with residents, manage duties, and build a stronger community.</p>
+                </div>
+                
+                <div class="mb-4">
+                    <div class="mb-3">
+                        <span class="feature-icon">📊</span>
+                    </div>
+                    <h5 class="mb-3">Powerful Analytics</h5>
+                    <p class="text-white-50">Get detailed reports and make data-driven decisions for your society.</p>
+                </div>
+                
+                <div class="mt-auto">
+                    <div class="d-flex justify-content-center gap-3">
+                        <div class="text-center">
+                            <h3 class="mb-0">✓</h3>
+                            <small class="text-white-50">Secure</small>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="mb-0">✓</h3>
+                            <small class="text-white-50">Fast</small>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="mb-0">✓</h3>
+                            <small class="text-white-50">Reliable</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+form input[type="text"], form input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+form input[type="text"]:focus, form input[type="password"]:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    outline: none;
+}
+
+.alert-icon {
+    font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        padding: 20px;
+    }
+}
+</style>
+{% endblock %}

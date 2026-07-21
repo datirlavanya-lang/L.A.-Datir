@@ -1,0 +1,68 @@
+{% extends 'society/base.html' %}
+
+{% block title %}Payment - Society Management{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">💳 Make a Payment</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {% if field.errors %}
+                                {{ field }}
+                                <div class="text-danger small mt-2">{{ field.errors }}</div>
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-success btn-lg">✓ Record Payment</button>
+                        <a href="{% url 'resident-dashboard' %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">📋 Pending Charges</div>
+            <div class="card-body">
+                {% if pending_maintenance %}
+                    <h6>Maintenance Due:</h6>
+                    <ul class="list-unstyled">
+                        {% for charge in pending_maintenance %}
+                            <li>{{ charge.unit.unit_number }} - {{ charge.month|date:"M Y" }} - ₹{{ charge.amount }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                
+                {% if pending_extra %}
+                    <h6 class="mt-3">Extra Charges:</h6>
+                    <ul class="list-unstyled">
+                        {% for charge in pending_extra %}
+                            <li>{{ charge.unit.unit_number }} - {{ charge.description|truncatewords:2 }} - ₹{{ charge.amount }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

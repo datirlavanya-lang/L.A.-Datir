@@ -1,0 +1,160 @@
+{% extends 'society/base.html' %}
+
+{% block title %}Unit {{ unit.unit_number }} - Society Management{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">🏠 Unit {{ unit.unit_number }} Details</h2>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">📋 Unit Information</div>
+            <div class="card-body">
+                <p><strong>Floor:</strong> {{ unit.floor }}</p>
+                <p><strong>Area:</strong> {{ unit.sqft }} sq.ft</p>
+                <p><strong>Resident:</strong> 
+                    {% if unit.resident %}
+                        {{ unit.resident.first_name }} {{ unit.resident.last_name }} ({{ unit.resident.email }})
+                    {% else %}
+                        <span class="badge bg-secondary">Vacant</span>
+                    {% endif %}
+                </p>
+                <p><strong>Total Pending:</strong> <span class="status-pending">₹{{ total_pending }}</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">⚡ Quick Actions</div>
+            <div class="card-body">
+                <a href="{% url 'add-maintenance' %}" class="btn btn-primary mb-2 w-100">➕ Add Maintenance</a>
+                <a href="{% url 'add-extra-charge' %}" class="btn btn-primary mb-2 w-100">➕ Add Extra Charge</a>
+                <a href="{% url 'add-duty' %}" class="btn btn-primary w-100">📅 Assign Duty</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">🔧 Maintenance Charges</div>
+            <div class="card-body">
+                {% if maintenance_charges %}
+                    <table class="table table-sm table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Month</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for charge in maintenance_charges %}
+                                <tr>
+                                    <td>{{ charge.month|date:"M Y" }}</td>
+                                    <td>₹{{ charge.amount }}</td>
+                                    <td>
+                                        {% if charge.status == 'paid' %}
+                                            <span class="status-paid">✓ Paid</span>
+                                        {% else %}
+                                            <span class="status-pending">⏳ Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'edit-maintenance' charge.pk %}" class="btn btn-xs btn-warning">Edit</a>
+                                        <a href="{% url 'delete-maintenance' charge.pk %}" class="btn btn-xs btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-muted">No maintenance charges</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">⚠️ Extra Charges</div>
+            <div class="card-body">
+                {% if extra_charges %}
+                    <table class="table table-sm table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for charge in extra_charges %}
+                                <tr>
+                                    <td>{{ charge.description|truncatewords:2 }}</td>
+                                    <td>₹{{ charge.amount }}</td>
+                                    <td>
+                                        {% if charge.status == 'paid' %}
+                                            <span class="status-paid">✓ Paid</span>
+                                        {% else %}
+                                            <span class="status-pending">⏳ Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'edit-extra-charge' charge.pk %}" class="btn btn-xs btn-warning">Edit</a>
+                                        <a href="{% url 'delete-extra-charge' charge.pk %}" class="btn btn-xs btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-muted">No extra charges</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">💳 Payment History</div>
+            <div class="card-body">
+                {% if payments %}
+                    <table class="table table-sm table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Reference</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in payments %}
+                                <tr>
+                                    <td>{{ payment.payment_date }}</td>
+                                    <td>₹{{ payment.amount }}</td>
+                                    <td>{{ payment.get_payment_method_display }}</td>
+                                    <td><code>{{ payment.transaction_id }}</code></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-muted">No payments recorded</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'admin-units' %}" class="btn btn-secondary">Back to Units</a>
+</div>
+
+{% endblock %}

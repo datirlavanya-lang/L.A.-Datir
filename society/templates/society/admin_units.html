@@ -1,0 +1,89 @@
+{% extends 'society/base.html' %}
+
+{% block title %}All Units - Society Management{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📋 All Units</h2>
+
+<div class="mb-3 d-flex justify-content-between align-items-center">
+    <form method="get" class="d-flex" style="flex: 1;">
+        <input type="text" name="search" class="form-control" placeholder="Search unit number or resident..." value="{{ request.GET.search }}">
+        <button type="submit" class="btn btn-primary ms-2">Search</button>
+    </form>
+    <a href="{% url 'add-unit' %}" class="btn btn-success">➕ Add Unit</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if units %}
+            <table class="table table-hover table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Unit</th>
+                        <th>Floor</th>
+                        <th>Resident</th>
+                        <th>Area (sq.ft)</th>
+                        <th>Pending Dues</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for unit in units %}
+                        <tr>
+                            <td><strong>{{ unit.unit_number }}</strong></td>
+                            <td>{{ unit.floor }}</td>
+                            <td>
+                                {% if unit.resident %}
+                                    {{ unit.resident.first_name }} {{ unit.resident.last_name }}
+                                {% else %}
+                                    <span class="badge bg-secondary">Vacant</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ unit.sqft }}</td>
+                            <td>
+                                {% if unit.get_pending_dues > 0 %}
+                                    <span class="status-pending">₹{{ unit.get_pending_dues }}</span>
+                                {% else %}
+                                    <span class="text-muted">₹0</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'unit-detail' unit.pk %}" class="btn btn-sm btn-info">View</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if is_paginated %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <p class="text-muted text-center py-4">No units found.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'admin-dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+{% endblock %}

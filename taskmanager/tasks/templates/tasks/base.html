@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - {% block title %}Dashboard{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .sidebar-item:hover { transform: translateX(4px); }
+        .sidebar-item { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .card-hover { transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    {% if user.is_authenticated %}
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gradient-to-b from-indigo-600 to-indigo-800 text-white shadow-xl">
+            <div class="p-6">
+                <div class="flex items-center space-x-3 mb-8">
+                    <i class="fas fa-tasks text-3xl"></i>
+                    <h1 class="text-2xl font-bold">TaskMaster</h1>
+                </div>
+                
+                <!-- User Profile -->
+                <div class="mb-8 p-4 bg-indigo-700 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold">{{ user.username }}</p>
+                            <p class="text-indigo-200 text-sm">{{ user.email }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="space-y-2">
+                    <a href="{% url 'dashboard' %}" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-700 {% if request.resolver_match.url_name == 'dashboard' %}bg-indigo-700{% endif %}">
+                        <i class="fas fa-tachometer-alt w-5"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="{% url 'task_list' %}" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-700 {% if request.resolver_match.url_name == 'task_list' or request.resolver_match.url_name == 'task_create' or request.resolver_match.url_name == 'task_update' or request.resolver_match.url_name == 'task_delete' %}bg-indigo-700{% endif %}">
+                        <i class="fas fa-list-check w-5"></i>
+                        <span>Tasks</span>
+                    </a>
+                    <a href="{% url 'task_create' %}" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-700">
+                        <i class="fas fa-plus-circle w-5"></i>
+                        <span>New Task</span>
+                    </a>
+                    <a href="{% url 'reports' %}" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-700 {% if request.resolver_match.url_name == 'reports' %}bg-indigo-700{% endif %}">
+                        <i class="fas fa-chart-bar w-5"></i>
+                        <span>Reports</span>
+                    </a>
+                    <a href="{% url 'profile' %}" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-700 {% if request.resolver_match.url_name == 'profile' %}bg-indigo-700{% endif %}">
+                        <i class="fas fa-cog w-5"></i>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <!-- Top Bar -->
+            <header class="bg-white shadow-sm border-b border-gray-200">
+                <div class="px-8 py-4 flex justify-between items-center">
+                    <h2 class="text-2xl font-semibold text-gray-800">{% block page_title %}Dashboard{% endblock %}</h2>
+                    <div class="flex items-center space-x-4">
+                        <button class="relative p-2 text-gray-600 hover:text-gray-800 transition">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                        <div class="text-sm text-gray-600">
+                            <i class="fas fa-calendar mr-2"></i>
+                            {% now "F j, Y" %}
+                        </div>
+                        <a href="{% url 'logout' %}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center space-x-2">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Page Content -->
+            <div class="p-8">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    {% else %}
+    <!-- Non-authenticated layout -->
+    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+        <div class="max-w-md w-full">
+            {% block auth_content %}{% endblock %}
+        </div>
+    </div>
+    {% endif %}
+</body>
+</html>

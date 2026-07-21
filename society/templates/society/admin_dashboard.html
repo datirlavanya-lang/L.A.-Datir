@@ -1,0 +1,301 @@
+{% extends 'society/base.html' %}
+
+{% block title %}Admin Dashboard - Society Management{% endblock %}
+
+{% block extra_css %}
+<style>
+.chart-container {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+}
+
+.chart-title {
+    font-size: .8rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 20px;
+}
+
+.bar-chart {
+    display: flex;
+    align-items: flex-end;
+    height: 200px;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.bar {
+    flex: 1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px 8px 0 0;
+    position: relative;
+    transition: all 0.3s ease;
+    min-height: 20px;
+}
+
+.bar:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.bar-label {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: #666;
+    white-space: nowrap;
+}
+
+.bar-value {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.pie-chart {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.pie-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.trend-line {
+    height: 150px;
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    padding: 10px 0;
+}
+
+.trend-point {
+    width: 8px;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.trend-point:hover {
+    transform: scale(1.5);
+    box-shadow: 0 3px 10px rgba(79, 172, 254, 0.4);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">⚙️ Admin Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="stats-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <h4>{{ total_units }}</h4>
+            <p>Total Units</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-box" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            <h4>₹{{ total_pending_dues }}</h4>
+            <p>Total Pending Dues</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-box" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+            <h4>₹{{ total_collected }}</h4>
+            <p>Total Collected</p>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="chart-container">
+            <h5 class="chart-title">📊 Monthly Collection Trend</h5>
+            <div class="trend-line">
+                <div class="trend-point" style="height: 20%;"></div>
+                <div class="trend-point" style="height: 30%;"></div>
+                <div class="trend-point" style="height: 40%;"></div>
+                <div class="trend-point" style="height: 50%;"></div>
+                <div class="trend-point" style="height: 60%;"></div>
+                <div class="trend-point" style="height: 70%;"></div>
+                <div class="trend-point" style="height: 80%;"></div>
+                <div class="trend-point" style="height: 75%;"></div>
+                <div class="trend-point" style="height: 85%;"></div>
+                <div class="trend-point" style="height: 90%;"></div>
+            </div>
+            <div class="text-center mt-3 text-muted small">
+                Jan - Oct 2026
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="chart-container">
+            <h5 class="chart-title">🥧 Payment Methods Distribution</h5>
+            <div class="pie-chart" style="background: conic-gradient(#667eea 0% 40%, #f093fb 40% 70%, #4facfe 70% 90%, #27ae60 90% 100%);"></div>
+            <div class="pie-legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #667eea;"></div>
+                    <span>UPI (40%)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #f093fb;"></div>
+                    <span>Transfer (30%)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #4facfe;"></div>
+                    <span>Cash (20%)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #27ae60;"></div>
+                    <span>Check (10%)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="chart-container">
+            <h5 class="chart-title">📈 Unit-wise Collection Status</h5>
+            <div class="bar-chart">
+                <div class="bar" style="height: 30%;">
+                    <div class="bar-value">₹2,000</div>
+                    <div class="bar-label">Unit 1</div>
+                </div>
+                <div class="bar" style="height: 40%;">
+                    <div class="bar-value">₹7,000</div>
+                    <div class="bar-label">Unit 2</div>
+                </div>
+                <div class="bar" style="height: 50%;">
+                    <div class="bar-value">₹12,000</div>
+                    <div class="bar-label">Unit 3</div>
+                </div>
+                <div class="bar" style="height: 60%;">
+                    <div class="bar-value">₹17,000</div>
+                    <div class="bar-label">Unit 4</div>
+                </div>
+                <div class="bar" style="height: 70%;">
+                    <div class="bar-value">₹22,000</div>
+                    <div class="bar-label">Unit 5</div>
+                </div>
+                <div class="bar" style="height: 80%;">
+                    <div class="bar-value">₹27,000</div>
+                    <div class="bar-label">Unit 6</div>
+                </div>
+                <div class="bar" style="height: 90%;">
+                    <div class="bar-value">₹32,000</div>
+                    <div class="bar-label">Unit 7</div>
+                </div>
+                <div class="bar" style="height: 100%;">
+                    <div class="bar-value">₹37,000</div>
+                    <div class="bar-label">Unit 8</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if overdue_units %}
+    <div class="card border-danger mb-4">
+        <div class="card-header bg-danger text-white">
+            ⚠️ Units with Overdue Payments
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th>Unit</th>
+                        <th>Resident</th>
+                        <th>Overdue Charges</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for unit, count in overdue_units %}
+                        <tr>
+                            <td><strong>{{ unit.unit_number }}</strong></td>
+                            <td>{{ unit.resident.first_name }} {{ unit.resident.last_name }}</td>
+                            <td><span class="badge bg-danger">{{ count }} charges</span></td>
+                            <td><a href="{% url 'unit-detail' unit.pk %}" class="btn btn-sm btn-primary">View</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">💳 Recent Payments</div>
+            <div class="card-body">
+                {% if recent_payments %}
+                    <table class="table table-sm table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Unit</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in recent_payments %}
+                                <tr>
+                                    <td>{{ payment.unit.unit_number }}</td>
+                                    <td>₹{{ payment.amount }}</td>
+                                    <td>{{ payment.payment_date }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="{% url 'payment-list' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">⚡ Quick Actions</div>
+            <div class="card-body">
+                <a href="{% url 'admin-units' %}" class="btn btn-primary mb-2 w-100">📋 Manage Units</a>
+                <a href="{% url 'bulk-maintenance' %}" class="btn btn-primary mb-2 w-100">🔧 Generate Maintenance</a>
+                <a href="{% url 'add-extra-charge' %}" class="btn btn-primary mb-2 w-100">⚠️ Add Extra Charge</a>
+                <a href="{% url 'add-duty' %}" class="btn btn-primary mb-2 w-100">📅 Assign Duty</a>
+                <a href="{% url 'duty-list' %}" class="btn btn-primary w-100">📋 View Duties</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

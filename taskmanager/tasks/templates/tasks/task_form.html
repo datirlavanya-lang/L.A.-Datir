@@ -1,0 +1,116 @@
+{% extends 'tasks/base.html' %}
+{% block page_title %}
+    {% if form.instance.pk %}Edit Task{% else %}Create Task{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">
+                {% if form.instance.pk %}
+                    <i class="fas fa-edit mr-3 text-indigo-600"></i>Edit Task
+                {% else %}
+                    <i class="fas fa-plus-circle mr-3 text-green-600"></i>Create New Task
+                {% endif %}
+            </h2>
+            <p class="text-gray-600 mt-2">
+                {% if form.instance.pk %}
+                    Update your task details below
+                {% else %}
+                    Fill in the details to create a new task
+                {% endif %}
+            </p>
+        </div>
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    Please correct the errors below.
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <br><small>{{ field }}: {{ error }}</small>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <!-- Title -->
+            <div>
+                <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-heading mr-2"></i>Task Title *
+                </label>
+                <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" 
+                       value="{{ form.title.value|default:'' }}"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
+                       placeholder="Enter task title" required>
+            </div>
+            
+            <!-- Description -->
+            <div>
+                <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-align-left mr-2"></i>Description
+                </label>
+                <textarea name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" 
+                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
+                          placeholder="Add a detailed description (optional)"
+                          rows="4">{{ form.description.value|default:'' }}</textarea>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Status -->
+                <div>
+                    <label for="{{ form.status.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-tasks mr-2"></i>Status
+                    </label>
+                    <select name="{{ form.status.name }}" id="{{ form.status.id_for_label }}" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200">
+                        <option value="Pending" {% if form.status.value == 'Pending' %}selected{% endif %}>Pending</option>
+                        <option value="In Progress" {% if form.status.value == 'In Progress' %}selected{% endif %}>In Progress</option>
+                        <option value="Completed" {% if form.status.value == 'Completed' %}selected{% endif %}>Completed</option>
+                    </select>
+                </div>
+                
+                <!-- Priority -->
+                <div>
+                    <label for="{{ form.priority.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-flag mr-2"></i>Priority
+                    </label>
+                    <select name="{{ form.priority.name }}" id="{{ form.priority.id_for_label }}" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200">
+                        <option value="Low" {% if form.priority.value == 'Low' %}selected{% endif %}>Low</option>
+                        <option value="Medium" {% if form.priority.value == 'Medium' %}selected{% endif %}>Medium</option>
+                        <option value="High" {% if form.priority.value == 'High' %}selected{% endif %}>High</option>
+                        <option value="Urgent" {% if form.priority.value == 'Urgent' %}selected{% endif %}>Urgent</option>
+                    </select>
+                </div>
+                
+                <!-- Due Date -->
+                <div>
+                    <label for="{{ form.due_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-calendar mr-2"></i>Due Date
+                    </label>
+                    <input type="date" name="{{ form.due_date.name }}" id="{{ form.due_date.id_for_label }}" 
+                           value="{{ form.due_date.value|default:'' }}"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200">
+                </div>
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                <a href="{% url 'task_list' %}" class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition duration-200 flex items-center space-x-2">
+                    <i class="fas fa-times"></i>
+                    <span>Cancel</span>
+                </a>
+                <button type="submit" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200 flex items-center space-x-2">
+                    <i class="fas fa-save"></i>
+                    <span>{% if form.instance.pk %}Update Task{% else %}Create Task{% endif %}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
